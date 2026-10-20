@@ -90,3 +90,16 @@ def test_timeout_option(pytester):
         """
     )
     pytester.runpytest_subprocess("--mcp-timeout", "2.5").assert_outcomes(passed=1)
+
+
+def test_async_test_using_only_mcp_server_runs_under_anyio(pytester):
+    pytester.makepyfile(
+        """
+        from pytest_mcp import assert_tool_call, connect
+
+        async def test_manual_connect(mcp_server):
+            async with connect(mcp_server) as client:
+                await assert_tool_call(client, "add", {"a": 1, "b": 1}, expected=2)
+        """
+    )
+    pytester.runpytest_subprocess("--mcp-server", CALC_CMD).assert_outcomes(passed=1)

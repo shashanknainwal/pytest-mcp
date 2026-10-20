@@ -54,7 +54,8 @@ def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
     for item in items:
         if not isinstance(item, pytest.Function):
             continue
-        if "mcp_client" not in item.fixturenames or not inspect.iscoroutinefunction(item.obj):
+        uses_mcp = "mcp_client" in item.fixturenames or "mcp_server" in item.fixturenames
+        if not uses_mcp or not inspect.iscoroutinefunction(item.obj):
             continue
         if item.get_closest_marker("anyio") or item.get_closest_marker("asyncio"):
             continue

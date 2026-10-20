@@ -61,6 +61,10 @@ pytest --pyargs pytest_mcp.suite --mcp-server "python server.py" --mcp-spec-vers
 
 The suite fails if the server negotiates an older protocol version. For example, the official filesystem server still speaks `2025-11-25`.
 
+## Real-world suites
+
+[`suites/`](suites/) holds test suites for 4 official MCP servers: filesystem, git, memory, and time. Together they have 93 tests, including sandbox-escape and argument-injection tests based on real 2025 CVEs. They also found an upstream bug in the filesystem server's `tail` option. Use them as templates for your own server.
+
 ## Pointing at your server
 
 Pick one. They are listed from most specific to least specific.
