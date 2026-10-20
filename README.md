@@ -1,14 +1,14 @@
-# pytest-mcp
+# pytest-mcptest
 
 **Test your MCP servers like you test everything else.**
 
 A pytest plugin for [Model Context Protocol](https://modelcontextprotocol.io) servers. It starts your server, connects a client, and gives you fixtures and assertions for tools, resources, and prompts. It works in-process, over stdio, or over Streamable HTTP. It also tests servers written in other languages, such as Node.js or Go, as long as they speak MCP over stdio or HTTP.
 
 ```bash
-pip install pytest-mcp
+pip install pytest-mcptest
 ```
 
-Requires Python 3.10+ and the official `mcp` SDK 2.x.
+The import name is `pytest_mcp`. Requires Python 3.10+ and the official `mcp` SDK 2.x.
 
 ## Quick start
 
@@ -79,7 +79,7 @@ A target can be any of these:
 | An `MCPServer` or low-level `Server` instance | In-process (fastest, no subprocess) |
 | `stdio("python", "server.py", env={...}, cwd=...)` or `"python server.py"` | stdio subprocess |
 | `"http://localhost:8000/mcp"` | Streamable HTTP, already running |
-| `http("http://127.0.0.1:8000/mcp", "python server.py --port 8000")` | Streamable HTTP. pytest-mcp starts the command, waits for the port, and stops the server afterwards |
+| `http("http://127.0.0.1:8000/mcp", "python server.py --port 8000")` | Streamable HTTP. pytest-mcptest starts the command, waits for the port, and stops the server afterwards |
 
 Per-test setup, such as a fresh temp directory for each test:
 
@@ -146,7 +146,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: { python-version: "3.13" }
-      - run: pip install -e . pytest-mcp
+      - run: pip install -e . pytest-mcptest
       - run: pytest
       - run: pytest --pyargs pytest_mcp.suite --mcp-server "python server.py"
 ```
@@ -169,5 +169,12 @@ python -m venv .venv && source .venv/bin/activate
 pip install -e ".[dev]"
 pytest && ruff check . && ruff format --check .
 ```
+
+### Releasing
+
+1. Bump `version` in `pyproject.toml` (and `__version__` in `pytest_mcp/__init__.py`), then merge to `main`.
+2. Run `git tag v0.1.1 && git push origin v0.1.1`.
+
+The [Release workflow](.github/workflows/release.yml) checks the tag matches the version, runs the tests, builds, and publishes to PyPI with trusted publishing.
 
 MIT licensed.

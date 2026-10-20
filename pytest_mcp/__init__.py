@@ -1,4 +1,4 @@
-"""pytest-mcp: test your MCP servers like you test everything else."""
+"""pytest-mcptest: test your MCP servers like you test everything else."""
 
 from pytest_mcp.assertions import (
     assert_prompt_exists,
