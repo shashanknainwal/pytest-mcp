@@ -36,7 +36,17 @@ jobs:
       - run: pytest -v
 
   examples:
-    # Proves pytest-mcptest tests servers written in other languages, over stdio.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install -e .
+      - run: pytest examples -v
+
+  suites:
+    # Real-world suites for official MCP servers (Node.js and Python), run over stdio.
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -47,9 +57,13 @@ jobs:
         with:
           node-version: "22"
       - run: pip install -e .
-      - run: npm install -g @modelcontextprotocol/server-filesystem
-      - run: pytest examples -v
+      - run: npm install -g @modelcontextprotocol/server-filesystem @modelcontextprotocol/server-memory
+      - run: pipx install mcp-server-git && pipx install mcp-server-time
+      - run: pytest suites -v
         env:
           MCP_FILESYSTEM_SERVER: mcp-server-filesystem
+          MCP_MEMORY_SERVER: mcp-server-memory
+          MCP_GIT_SERVER: mcp-server-git
+          MCP_TIME_SERVER: mcp-server-time
       - name: Zero-code conformance suite
         run: pytest --pyargs pytest_mcp.suite --mcp-server "mcp-server-filesystem $RUNNER_TEMP" -v
