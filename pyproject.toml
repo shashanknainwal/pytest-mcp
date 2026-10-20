@@ -1,0 +1,51 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pytest-mcp"
+version = "0.1.0"
+description = "Test your MCP servers like you test everything else."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [{ name = "Shashank Nainwal" }]
+keywords = ["pytest", "mcp", "model-context-protocol", "testing", "llm", "agents"]
+classifiers = [
+    "Framework :: Pytest",
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Topic :: Software Development :: Testing",
+]
+dependencies = [
+    "pytest>=8.0",
+    "mcp>=2.3,<3",
+    "anyio>=4.9",
+    "exceptiongroup>=1.2; python_version < '3.11'",
+]
+
+[project.optional-dependencies]
+dev = ["ruff>=0.6"]
+
+[project.urls]
+Homepage = "https://github.com/shashanknainwal/pytest-mcp"
+Issues = "https://github.com/shashanknainwal/pytest-mcp/issues"
+
+[project.entry-points.pytest11]
+mcp = "pytest_mcp.plugin"
+
+[tool.hatch.build.targets.wheel]
+packages = ["pytest_mcp"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-p pytester"
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

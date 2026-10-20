@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install ruff
+      - run: ruff check .
+      - run: ruff format --check .
+
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
+        include:
+          - os: macos-latest
+            python-version: "3.13"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: pip install -e .
+      - run: pytest -v
+
+  examples:
+    # Proves pytest-mcp tests servers written in other languages, over stdio.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: pip install -e .
+      - run: npm install -g @modelcontextprotocol/server-filesystem
+      - run: pytest examples -v
+        env:
+          MCP_FILESYSTEM_SERVER: mcp-server-filesystem
+      - name: Zero-code conformance suite
+        run: pytest --pyargs pytest_mcp.suite --mcp-server "mcp-server-filesystem $RUNNER_TEMP" -v
