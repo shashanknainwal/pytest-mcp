@@ -14,7 +14,7 @@ from pytest_mcp.client import MCPConnectionError, MCPTestClient, connect
 from pytest_mcp.conformance import Issue, assert_conformance, check_conformance
 from pytest_mcp.transport import http, stdio
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 __all__ = [
     "Issue",
