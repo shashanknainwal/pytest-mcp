@@ -23,7 +23,7 @@ from mcp.server.mcpserver import MCPServer
 class HttpTarget:
     """An MCP server reachable over Streamable HTTP.
 
-    When ``command`` is set, pytest-mcp starts it before connecting, waits for
+    When ``command`` is set, pytest-mcptest starts it before connecting, waits for
     the URL's port to accept connections, and stops it after the test.
     """
 

@@ -1,6 +1,6 @@
-"""Testing the official (Node.js) filesystem MCP server with pytest-mcp.
+"""Testing the official (Node.js) filesystem MCP server with pytest-mcptest.
 
-    pip install pytest-mcp
+    pip install pytest-mcptest
     pytest examples/test_filesystem_server.py
 
 Set MCP_FILESYSTEM_SERVER to use a locally installed binary instead of npx.

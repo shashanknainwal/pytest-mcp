@@ -96,7 +96,7 @@ def mcp_server(request: pytest.FixtureRequest) -> Target:
     if configured:
         return resolve(configured)
     raise pytest.UsageError(
-        "pytest-mcp: no MCP server configured. Use one of:\n"
+        "pytest-mcptest: no MCP server configured. Use one of:\n"
         "  - @pytest.mark.mcp_server(my_server) on the test, class or module\n"
         "  - an `mcp_server` fixture in conftest.py returning the server\n"
         '  - pytest --mcp-server "python server.py"  (or a http:// URL)\n'

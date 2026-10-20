@@ -3,7 +3,7 @@ requires = ["hatchling>=1.25"]
 build-backend = "hatchling.build"
 
 [project]
-name = "pytest-mcp"
+name = "pytest-mcptest"
 version = "0.1.0"
 description = "Test your MCP servers like you test everything else."
 readme = "README.md"
